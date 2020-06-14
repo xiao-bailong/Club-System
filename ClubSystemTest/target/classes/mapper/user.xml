@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.zucc.dao.UserDao">
+	<resultMap type="cn.edu.zucc.entity.User" id="UserResult">
+		<id property="userId" column="userId"></id>
+		<result property="username" column="username"></result>
+		<result property="password" column="password"></result>
+		<result property="type" column="type"></result>
+	</resultMap>
+    <insert id="add" parameterType="cn.edu.zucc.entity.User">
+    	insert into user values(#{userId},#{username},#{password},#{type})
+    </insert>
+	<update id="modify">
+		update user set username=#{username},password=#{password} where userId=#{userId}
+	</update>
+	<update id="modify2">
+		update user set type=#{type} where userId=#{userId}
+	</update>
+	<update id="resetPassword">
+		update user set password='123456' where userId=#{userId}
+	</update>
+    <select id="check" resultMap="UserResult">
+ 		select * from user where userId=#{userId} and password=#{password}
+ 	</select>
+    <select id="checkid" resultMap="UserResult">
+ 		select * from user where userId=#{userId}
+ 	</select>
+	<select id="checkname" resultMap="UserResult">
+ 		select * from user where username=#{username}
+ 	</select>
+	<select id="list" resultMap="UserResult">
+ 		select * from user where type!=1
+ 	</select>
+	<delete id="delete" >
+		delete from user where userId=#{userId}
+	</delete>
+	<select id="search" parameterType="java.lang.String" resultMap="UserResult">
+ 		select * from user where type!=1 and (userId like concat('%',#{context},'%') or username like concat('%',#{context},'%'))
+ 	</select>
+<!--	<select id="listMyClubApprovalUser" resultMap="UserResult">-->
+<!--		select * from user where userId in-->
+<!--		<foreach collection="list" item="userId" index="index" open="(" close=")" separator=",">-->
+<!--			#{userId}-->
+<!--		</foreach>-->
+<!--	</select>-->
+	<select id="count" resultType="java.lang.Integer">
+ 		select count(*) from user
+ 	</select>
+</mapper>

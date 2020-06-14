@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.zucc.dao.ClubDao">
+    <resultMap type="cn.edu.zucc.entity.Club" id="ClubResult">
+        <id property="clubId" column="clubId"></id>
+        <result property="createTime" column="createTime"></result>
+        <result property="ownerId" column="ownerId"></result>
+        <result property="description" column="description"></result>
+        <result property="name" column="name"></result>
+        <result property="state" column="state"></result>
+        <result property="amount" column="amount"></result>
+        <result property="notice" column="notice"></result>
+    </resultMap>
+    <insert id="createClub">
+    	insert into club(ownerId,description,name,state,amount,notice) values(#{ownerId},#{description},#{name},#{state},0,'暂无公告')
+    </insert>
+    <update id="upadte">
+		update club set createTime=#{createTime},state=#{state},amount=#{amount} where clubId=#{clubId}
+	</update>
+    <update id="update2">
+		update club set description=#{description},notice=#{notice} where clubId=#{clubId}
+	</update>
+    <select id="count3" resultType="java.lang.Integer">
+ 		select count(*) from club where ownerId=#{ownerId} and state=2
+ 	</select>
+    <update id="replace">
+		update club set ownerId=#{ownerId} where clubId=#{clubId}
+	</update>
+    <update id="addMember">
+		update club set amount=amount+1 where clubId=#{clubId}
+	</update>
+    <update id="deleteMember">
+		update club set amount=amount-1 where clubId=#{clubId}
+	</update>
+    <select id="check" resultMap="ClubResult">
+ 		select * from club where name=#{name}
+ 	</select>
+    <select id="check2" resultMap="ClubResult">
+ 		select * from club where clubId=#{clubId}
+ 	</select>
+    <select id="listClub" resultMap="ClubResult">
+ 		select * from club where state=#{state}
+ 	</select>
+    <select id="listMyclub" resultMap="ClubResult">
+ 		select * from club where clubId in
+        <foreach collection="list" item="clubId" index="index" open="(" close=")" separator=",">
+            #{clubId}
+        </foreach>
+ 	</select>
+    <select id="listMyclub2" resultMap="ClubResult">
+        select * from club where ownerId=#{ownerId} and state=2
+    </select>
+    <select id="count1" resultType="java.lang.Integer">
+ 		select count(*) from club where state=1
+ 	</select>
+    <select id="count2" resultType="java.lang.Integer">
+ 		select count(*) from club where state=2
+ 	</select>
+</mapper>

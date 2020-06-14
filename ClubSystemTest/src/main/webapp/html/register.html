@@ -1,0 +1,363 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<!-- 弹窗 -->
+	<link href="../css/xtiper.css" type="text/css" rel="stylesheet" />
+	<link rel="shortcut icon" href="#"/>
+	<script src="../js/xtiper.min.js" type="text/javascript"></script>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			font-family: "微软雅黑"
+		}
+		body{
+			background:#323232;
+		}
+		.main{
+			width: 1000px;
+			height: 450px;
+			margin: 0 auto;
+			align-content: center;
+			margin-top: 85px;
+			border-radius: 8px;
+			overflow: hidden;
+			box-shadow: 4px 4px 15px #181818;
+		}
+		.main-left{
+			width: 50%;
+			height: 100%;
+			background-color:#1C6AB4;
+			position: relative
+		}
+		.main-right{
+			width: 50%;
+			height: 100%;
+			background:#2A2A2A;
+			margin-left: 500px;
+			margin-top: -450px;
+			position: relative;
+		}
+		.main-left-text1{
+			color: #FFFFFF;
+			font-size: 40px;
+			font-weight: bold;
+			padding-left: 50px;
+			padding-top: 170px;
+		}
+		input{
+			outline: none;
+			background-color:rgba(0,0,0,0);
+			border: none;
+			border-bottom: #2192ff 1px solid;
+			font-size: 15px;
+			padding-left: 0px;
+			padding-bottom: 5px;
+		}
+		input:focus{
+			transition: all 0.3s;
+			border-bottom: 1px #6BB6FF solid;
+		}
+		/*		line0*/
+		.line0{
+			position: relative;
+			top: 100px;
+			left: 69px;
+		}
+		.register-userId{
+			float: left;
+			position: absolute;
+
+		}
+		.input-userId{
+			width: 300px;
+			color: #757575;
+			z-index: 10;
+		}
+		/*		line1*/
+		.line1{
+			position: relative;
+			top: 150px;
+			left: 69px;
+		}
+		.register-userName{
+			float: left;
+			position: absolute;
+
+		}
+		.input-userName{
+			width: 300px;
+			color: #757575;
+			z-index: 10;
+		}
+		/*		line2*/
+
+		.line2{
+			position: relative;
+			top: 200px;
+			left: 69px;
+		}
+		.register-password{
+			float: left;
+			position: absolute;
+			/*left: 205px;*/
+		}
+		.input-password{
+			width: 300px;
+			color: #757575;
+		}
+		label{
+			position: relative;
+			margin-right: 30px;
+			color: #757575;
+		}
+		label::before{
+			display: inline-block;
+			content: "";
+			width: 16px;
+			height: 16px;
+			border-radius: 50%;
+			border: 1px solid #757575;
+			margin-right: 6px;
+			vertical-align: bottom;
+			color: #2192ff;
+		}
+		input:checked+label::before{
+			background-color:rgba(0,0,0,0);
+			border: 1px solid #2192ff;
+		}
+		input:checked+label::after{
+			display: inline-block;
+			content: "";
+			width: 6px;
+			height: 6px;
+			border-radius: 50%;
+			position: absolute;
+			left: 6px;
+			bottom: 6px;
+			background-color: #2192ff;
+		}
+		/*		line3*/
+		.line3{
+			position: absolute;
+			top: 270px;
+			left: 69px;
+		}
+		.submit{
+			width: 53px;
+			height: 30px;
+			position: absolute;
+			/*left: 290px;*/
+			left: 0px;
+			padding-top: 4px;
+			top: -3px;
+			border-bottom: none;
+			border-radius: 5px;
+			color: #fff;
+			background: #2192ff;
+			transition: all 0.3s;
+			text-align: center;
+			padding-left: 7px;
+			/*margin-left: 10px;*/
+		}
+		.submit:hover{
+			background: #0060BE;
+		}
+
+		/*	prompt*/
+		p{
+			color:#757575;
+			font-size: 15px;
+			z-index:-1;
+		}
+		.promt0{
+			position: absolute;
+			left: 70px;
+			/*top: 70px;*/
+			top: 100px;
+			transition: all 0.3s;
+		}
+		.promt1{
+			position: absolute;
+			left: 70px;
+			/*top: 70px;*/
+			top: 150px;
+			transition: all 0.3s;
+		}
+		.promt2{
+			position: absolute;
+			/*left: 274px;*/
+			/*top: 70px;*/
+			left: 70px;
+			top: 200px;
+			transition: all 0.3s;
+		}
+		span{
+			color: #fff;
+			position: absolute;
+			/*top: 370px;*/
+			top: 320px;
+			left: 70px;
+		}
+		span a{
+			color: #2192ff;
+		}
+	</style>
+	<title>Register</title>
+</head>
+
+<body>
+<div class="main">
+	<div class="main-left">
+		<p class="main-left-text1">社团管理系统</p>
+	</div>
+	<div class="main-right">
+		<form autocomplete="off" class="register-form" name="register-form" id="register-from">
+			<ul class="line0">
+				<li class="register-userId" id="register-userId">
+					<input onfocus="change0()" onBlur="changeback0()" name="userId" type="text" class="input-userId" id="input-userId"/>
+				</li>
+			</ul>
+			<ul class="line1">
+				<li class="register-userName" id="register-userName">
+					<input onfocus="change1()" onBlur="changeback1()" name="userName" type="text" class="input-userName" id="input-userName"/>
+				</li>
+			</ul>
+			<ul class="line2">
+				<li class="register-password" id="register-password">
+					<input onfocus="change2()" onBlur="changeback2()" name="password" type="text" class="input-password" id="input-password"/>
+				</li>
+			</ul>
+			<ul class="line3">
+				<li class="register-submit">
+					<input type="button" id="submit" name="submit" class="submit" value="提交"/>
+				</li>
+			</ul>
+		</form>
+		<p class="promt0" id="promt0">账号</p>
+		<p class="promt1" id="promt1">用户名</p>
+		<p class="promt2" id="promt2">密码</p>
+		<span>已经拥有账号? <a href="login.html">登录</a></span>
+	</div>
+</div>
+</body>
+</html>
+<script src="../js/jquery-3.4.1.js"></script>
+<script>
+</script>
+<script>
+	var isPass = false;
+	var localuserid = document.getElementById("input-userId");
+	var localusername = document.getElementById("input-userName");
+	var localpassword = document.getElementById("input-password");
+	function change1(){
+		var text = document.getElementById("promt1");
+		text.style.marginTop="-25px";
+		text.style.color="#2192ff";
+		text.style.zIndex="1";
+	}
+	function changeback1(){
+		var value = document.getElementById("input-userName").value;
+		document.getElementById("input-userName").style.color="white";
+		isPass = true;
+		if(value.length==0||value==""||value==undefined){
+			var text = document.getElementById("promt1");
+			text.style.marginTop="0px";
+			text.style.color="#757575";
+			text.style.zIndex="-1";
+		}
+	}
+	function change2(){
+		var text = document.getElementById("promt2");
+		text.style.marginTop="-25px";
+		text.style.color="#2192ff";
+		text.style.zIndex="1";
+	}
+	function changeback2(){
+		var value = document.getElementById("input-password").value;
+		if(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/.test(value)){
+			document.getElementById("input-password").style.color="white";
+			isPass = true;
+		}else{
+			xtip.msg("密码至少包含 数字和英文，长度6-20",{icon:'e',type:'w'});
+			document.getElementById("input-password").style.color="red";
+			isPass = false;
+		}
+		if(value.length==0||value==""||value==undefined || value.trim() == ""){
+			var text = document.getElementById("promt2");
+			text.style.marginTop="0px";
+			text.style.color="#757575";
+			text.style.zIndex="-1";
+		}
+	}
+	function change0(){
+		var text = document.getElementById("promt0");
+		text.style.marginTop="-25px";
+		text.style.color="#2192ff";
+		text.style.zIndex="1";
+	}
+	function changeback0(){
+		var value = document.getElementById("input-userId").value;
+		if(/^3\d{7}$/.test(value)){
+			document.getElementById("input-userId").style.color="white";
+			isPass = true;
+		}else{
+			xtip.msg("请输入3开头的8位学号",{icon:'e',type:'w'});
+			document.getElementById("input-userId").style.color="red";
+			isPass = false;
+		}
+		if(value.length==0||value==""||value==undefined){
+			var text = document.getElementById("promt0");
+			text.style.marginTop="0px";
+			text.style.color="#757575";
+			text.style.zIndex="-1";
+		}
+	}
+	function checkAll(){
+		var inputs = document.getElementsByTagName("input");
+		// if(!$('input:checked').prop("checked")){
+		// 	isPass = false;
+		// }
+		for(var i=0;i<inputs.length;i++){
+			var value = inputs[i].value;
+			if(value.length==0||value == ""||value.trim()==""){
+				isPass = false;
+				xtip.msg("格式有误，请检查",{icon:'e',type:'w'});
+			}
+			if(inputs[i].style.color=="red"){
+				isPass = false;
+				xtip.msg("格式有误，请检查",{icon:'e',type:'w'});
+			}
+		}
+		if(isPass){
+			return true
+		}else{
+			return false;
+		}
+	}
+	$("#submit").click(function(){
+		if(checkAll()){
+			// var param = $("#register-from").serialize();
+			// console.log((param));
+			$.ajax({
+				url:'../user/registe',
+				// data:param,
+				data:{'userId':localuserid.value,'userName':localusername.value,'password':localpassword.value,'type':"2"},
+				method:'post',
+			}).done(function(data){
+				if(data.status==0){
+					alert("注册成功!将为您跳转到登陆页面");
+					// console.log(data.obj);
+					console.log(data.user);
+					location.href="../html/login.html";
+				}else if(data.status==1){
+					xtip.msg(data.msg,{icon:'e',type:'w'});
+				}
+			}).fail(function(){
+				console.log('error');
+			});
+		}
+	});
+</script>

@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../font/iconfont.css" />
+    <link rel="stylesheet" href="../css/framework.css" />
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<!--    <link rel="stylesheet" href="../css/index.css">-->
+    <!-- 弹窗 -->
+    <link href="../css/xtiper.css" type="text/css" rel="stylesheet" />
+    <link rel="shortcut icon" href="#"/>
+    <script src="../js/xtiper.min.js" type="text/javascript"></script>
+    <title>我的社团</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+        }
+
+        html {
+            height: 100%;
+            width: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            background: #4F4F4F;
+            min-width: 530px;
+            /* 可以往上调，根据需求改，最小555px */
+            /*min-height: 800px;*/
+            min-height: 700px;
+        }
+        .main {
+            width: 1100px;
+            height: 550px;
+            background: #333;
+            box-shadow: 5px 5px 15px #161616;
+            border-radius: 5px;
+            position: relative;
+            top: 20px;
+            left: 30px;
+            padding-top: 50px;
+            margin: 0 auto;
+        }
+        .kuan {
+            background: #ffffff;
+            width: 95%;
+            height: 500px;
+            margin: 0 auto;
+        }
+        .operation{
+            color: #fff;
+            width: 80px;
+            height: 25px;
+            border-radius: 3px;
+            border: 1px solid transparent;
+            font-size: 12px;
+        }
+        #bt5{
+            background-color: #ed570f;
+            border-color: #ea004f;
+        }
+        #bt5:hover {
+            background-color: #ed100f;
+            border-color: #ea2703;
+        }
+        #bt4,#bt7{
+            background-color: #337ab7;
+            border-color: #2e6da4;
+        }
+        #bt4,#bt7:hover {
+            background-color: #286090;
+            border-color: #204d74;
+        }
+        #bt1{
+            position: absolute;
+            right: 50px;
+            top: 20px;
+            background-color: #337ab7;
+            border-color: #2e6da4;
+        }
+        #bt1:hover {
+            background-color: #286090;
+            border-color: #204d74;
+        }
+        #bt2{
+            position: absolute;
+            right: 50px;
+            top: 100px;
+            background-color: #ed570f;
+            border-color: #ea004f;
+        }
+        #bt2:hover{
+            background-color: #ed100f;
+            border-color: #ea2703;
+        }
+        #bt3{
+            position: absolute;
+            right: 50px;
+            top: 60px;
+            background-color: #dced1d;
+            border-color: #eac615;
+        }
+        #bt3:hover{
+            background-color: #edbd34;
+            border-color: #ea8511;
+        }
+        #bt6{
+            position: absolute;
+            right: 50px;
+            top: 140px;
+            background-color: #39ed2a;
+            border-color: #6cea0c;
+        }
+        #bt6:hover{
+            background-color: #29ed44;
+            border-color: #17ea26;
+        }
+        .box-card {
+            position: relative;
+            width: 850px;
+            height: 220px;
+            float: left;
+        }
+        .box-card .row{
+            position: relative;
+            margin-top: 20px;
+            margin-left: 20px;
+        }
+        .box-card .row .context{
+            position: absolute;
+            color: #6c4e1c;
+            font-size: 14px;
+            left: 80px;
+            top: 0px;
+        }
+        .box-card .row .title{
+            font-size: 14px;
+        }
+        /*.box-card2{*/
+        /*    width: 680px;*/
+        /*    height: 120px;*/
+        /*}*/
+        /*下面两个是element-ui的cdn的index.css设置不合理，因此在本地修改*/
+        .el-tabs--border-card>.el-tabs__header .el-tabs__item+.el-tabs__item, .el-tabs--border-card>.el-tabs__header .el-tabs__item:first-child{
+            width: 130px;
+            height: 80px;
+            text-align: center;
+            font-size: 20px;
+            padding-top: 15px;
+        }
+        .el-table td.is-right, .el-table th.is-right {
+             text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+<!-- 头部 -->
+<div class="header">
+    <div class="portrait">
+        <span class="iconfont icon-touxiang-kong" style="display: block; color: #fff;text-align: center; width: 100%;height: 70%; font-size: 55px; float: left;"></span>
+        <p class="header-username">username</p>
+    </div>
+    <div class="header-title">
+        <p class="title-content">社团管理系统</p>
+    </div>
+    <div class="header-right">
+        <div class="right-logout">
+            <div id="logout" class="logout-content">
+                <p class="font-logout">退出</p>
+                <span class="iconfont icon-dengchu" style=" width: 47px; float:right; font-size: 30px; padding-top: 3px;padding-bottom: 4px;color: #fff;"></span>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 内容 -->
+<div class="content">
+    <!-- 左侧导航 -->
+    <div class="nav">
+        <ul class="nav-ul">
+            <li id="jump-index" class="jump">首页</li>
+            <li id="jump-myClubTest" class="jump">我的社团</li>
+        </ul>
+    </div>
+    <!-- 主体内容 -->
+    <div class="main-out" id="main">
+        <div class="main">
+            <div class="kuan">
+                <el-tabs  type="border-card" :tab-position="tabPosition" style="height: 500px;" @tab-click="handleClick">
+                    <el-tab-pane v-for="(item,index) in clubList" :label=item.name ><!--v-on:click="choose(index)"-->
+                        <el-card class="box-card" shadow="hover">
+                            <div class="row">
+                                <div class="title">社团名称:</div>
+                                <div class='context'>{{item.name}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="title">社团描述:</div>
+                                <div class='context'>{{item.description}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="title">社团人数:</div>
+                                <div class='context'>{{item.amount}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="title">公&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp告:</div>
+                                <div class='context'>{{item.notice}}</div>
+                            </div>
+                            <button id="bt1" class="operation" type="text" @click="table = true" v-on:click="approval(index)">入团审批</button>
+                            <el-dialog :modal-append-to-body="false" title="入社申请名单" :visible.sync="table" @close='closeDialog'>
+                                <el-table :data="gridData">
+                                    <el-table-column property="id" label="申请序号" width="150"></el-table-column>
+                                    <el-table-column property="userId" label="用户id" width="150"></el-table-column>
+                                    <el-table-column property="username" label="用户名" width="150"></el-table-column>
+                                    <el-table-column label="操作" width="200">
+                                        <template slot-scope="scope">
+                                            <!--                            <el-button @click="handleClick(scope.row)" type="text" size="small">同意</el-button>-->
+                                            <button id="bt4" class="operation" @click="agree(scope.row)">同意</button>
+                                        </template>
+                                    </el-table-column>
+                                    <!--                    <el-table-column label="操作" width="200"><button id="bt4" class="operation" @click="handleClick(scope.row)" onclick="agree(this)">同意</button></el-table-column>-->
+                                </el-table>
+                            </el-dialog>
+                            <button id="bt3" class="operation" type="text" @click="table2 = true" v-on:click="manage(index)">人员管理</button>
+                            <el-dialog :modal-append-to-body="false" title="人员管理" :visible.sync="table2" @close='closeDialog2'>
+                                <el-table :data="gridData2">
+                                    <el-table-column property="id" label="id" width="150"></el-table-column>
+                                    <el-table-column property="userId" label="用户id" width="150"></el-table-column>
+                                    <el-table-column property="username" label="用户名" width="150"></el-table-column>
+                                    <el-table-column label="操作" width="200">
+                                        <template slot-scope="scope">
+                                            <button id="bt5" class="operation" @click="kickout(scope.row)">踢出</button>
+                                        </template>
+                                    </el-table-column>
+                                </el-table>
+                            </el-dialog>
+                            <button id="bt2" class="operation" type="text"  @click="Form = true" v-on:click="setting(index)">社团设置</button>
+                            <el-dialog :modal-append-to-body="false" title="社团设置" :visible.sync="Form">
+                                <el-form :model="form">
+                                    <el-form-item label="社团介绍" :label-width="formLabelWidth">
+                                        <el-input v-model="form.description" autocomplete="off"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="社团公告" :label-width="formLabelWidth">
+                                        <el-input v-model="form.notice" autocomplete="off"></el-input>
+                                    </el-form-item>
+                                </el-form>
+                                <div slot="footer" class="dialog-footer">
+                                    <el-button @click="Form = false">取 消</el-button>
+                                    <el-button type="primary" @click="alter()">确 定</el-button>
+                                </div>
+                            </el-dialog>
+                            <button id="bt6" class="operation" type="text"  @click="Form2 = true" >创建活动</button><!--v-on:click="create(index)"-->
+                            <el-dialog :modal-append-to-body="false" title="创建社团活动" :visible.sync="Form2">
+                                <el-form :model="form2">
+                                    <el-form-item label="活动名称" :label-width="formLabelWidth">
+                                        <el-input v-model="form2.title" autocomplete="off"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="活动描述" :label-width="formLabelWidth">
+                                        <el-input v-model="form2.description" autocomplete="off"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="开始时间" :label-width="formLabelWidth">
+                                        <div class="block">
+                                            <el-date-picker :picker-options="pickerOptions"
+                                                    v-model="form2.starttime"
+                                                    type="datetime"
+                                                    placeholder="选择开始日期时间">
+                                            </el-date-picker>
+                                        </div>
+                                    </el-form-item>
+                                    <el-form-item label="结束时间" :label-width="formLabelWidth">
+                                        <div class="block">
+                                            <el-date-picker :picker-options="pickerOptions"
+                                                    v-model="form2.endtime"
+                                                    type="datetime"
+                                                    placeholder="选择结束日期时间">
+                                            </el-date-picker>
+                                        </div>
+                                    </el-form-item>
+                                    <el-form-item label="活动地点" :label-width="formLabelWidth">
+                                        <el-input v-model="form2.location" autocomplete="off"></el-input>
+                                    </el-form-item>
+                                </el-form>
+                                <div slot="footer" class="dialog-footer">
+                                    <el-button @click="Form2 = false">取 消</el-button>
+                                    <el-button type="primary" @click="alter2(index)">确 定</el-button>
+                                </div>
+                            </el-dialog>
+                        </el-card>
+                        <el-table
+                                  :data="activityList.filter(data => !search || data.title.toLowerCase().includes(search.toLowerCase()))" style="width: 100%" height="250" border>
+                            <el-table-column label="id" prop="activityid" width="35"></el-table-column>
+                            <el-table-column label="活动名称" prop="title" width="80"></el-table-column>
+                            <el-table-column label="描述" prop="description"></el-table-column>
+                            <el-table-column label="地点" prop="location" width="80"></el-table-column>
+                            <el-table-column label="人数" prop="amount" width="40"></el-table-column>
+                            <el-table-column label="开始时间" prop="starttime"></el-table-column>
+                            <el-table-column label="结束时间" prop="endtime"></el-table-column>
+                            <el-table-column align="right" width="120">
+                                <template slot="header" slot-scope="scope">
+                                    <el-input v-model="search" size="mini" placeholder="搜索"/>
+                                </template>
+                                <template slot-scope="scope">
+                                    <el-button size="mini" @click="handleEdit(scope.$index, scope.row);table3 = true" >报名审批</el-button>
+                                    <el-dialog :modal-append-to-body="false" title="活动报名名单" :visible.sync="table3" @close="closeDialog3(scope.$index, scope.row)">
+                                        <el-table :data="gridData3">
+                                            <el-table-column property="id" label="申请序号" width="150"></el-table-column>
+                                            <el-table-column property="userId" label="用户id" width="150"></el-table-column>
+                                            <el-table-column property="username" label="用户名" width="150"></el-table-column>
+                                            <el-table-column label="操作" width="200">
+                                                <template slot-scope="scope">
+                                                    <button id="bt7" class="operation" @click="agree2(scope.row)">同意</button>
+                                                </template>
+                                            </el-table-column>
+                                        </el-table>
+                                    </el-dialog>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </el-tab-pane>
+                </el-tabs>
+            </div>
+        </div>
+    </div>
+</div> <!--原来少了一个-->
+</body>
+
+</html>
+<script src="../js/jquery-3.4.1.js"></script>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script type="text/javascript" src="../js/jump2.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.js"></script>
+<script>
+    window.onload = function() {
+        $('.header .portrait .header-username').text(JSON.parse(sessionStorage.getItem("curUser")).username);
+    };
+    // $("#bt1").click(function(){//jquery点击没有效果
+    //     console.log(123);
+    //     var index=e.currentTarget.dataset.index;
+    //     console.log(index);
+    // });
+    var app = new Vue({
+        el: '#main',
+        data: {
+            tabPosition:'left',
+            clubList:null,
+            activityList:[],
+            table: false,//社团报名table
+            table2:false,//社团成员table
+            table3:false,//活动报名table
+            Form:false,
+            Form2:false,
+            formLabelWidth: '100px',
+            form: {},
+            form2: {},
+            gridData: null,//社团报名table
+            gridData2: null,//社团成员table
+            gridData3: null,//活动报名table
+            pickerOptions: {
+                disabledDate(time) {
+                    return time.getTime() < new Date(new Date().toLocaleDateString()).getTime();
+                }
+            },
+            search: ''
+        },
+        mounted() {
+            var that = this;
+            axios.post('/ClubSystemTest_war_exploded/club/listMyClub2', {
+                userid: JSON.parse(sessionStorage.getItem("curUser")).userId,
+            }).then(function (response) {
+                that.clubList = response.data;
+                axios.post('/ClubSystemTest_war_exploded/activity/listClubActivity3', {
+                    clubId: that.clubList[0].clubId,
+                }).then(function (response) {
+                    that.activityList = response.data;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+                // console.log(that.clubList);
+                // $.ajax({                         //ajax请求出错
+                //     url:"/ClubSystemTest_war_exploded/activity/listClubActivity2",
+                //     data:{'clubId':that.clubList[0].clubId},
+                //     method:"post"
+                // }).done(function(res){
+                //     console.log(res);
+                //     that.activityList=res;
+                //     // if(res.status == 0){
+                //     //     that.activityList=res.activityList;
+                //     // }else if(res.status == 1){
+                //     //     xtip.msg(res.msg,{icon:'e',type:'w'});
+                //     // }
+                //     // if(res != null){
+                //     //     that.activityList=res;
+                //     // }else{
+                //     //     // that.activityList=[{}];
+                //     //     // xtip.msg("暂无活动",{icon:'e',type:'w'});
+                //     // }
+                // }).fail(function () {
+                //     xtip.msg("请求失败",{icon:'e',type:'w'});
+                // })
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        methods:{
+            approval:function(index){
+                var that = this;
+                console.log(that.clubList[index]);
+                $.ajax({
+                    url:"/ClubSystemTest_war_exploded/club/listMyClubApprovalUser",
+                    data:{'clubId':that.clubList[index].clubId},
+                    method:"post"
+                }).done(function(res){
+                    // console.log(res);
+                    // that.gridData=res;
+                    if(res != null){
+                        that.gridData=res;
+                    }else{
+                        xtip.msg("申请列表为空",{icon:'e',type:'w'});
+                    }
+                }).fail(function () {
+                    xtip.msg("请求失败",{icon:'e',type:'w'});
+                })
+            },
+            manage:function(index) {
+                var that = this;
+                console.log(that.clubList[index]);
+                $.ajax({
+                    url:"/ClubSystemTest_war_exploded/club/listMyClubMember",
+                    data:{'clubId':that.clubList[index].clubId,'userId':JSON.parse(sessionStorage.getItem("curUser")).userId},
+                    method:"post"
+                }).done(function(res){
+                    if(res != null){
+                        that.gridData2=res;
+                    }else{
+                        xtip.msg("成员为空",{icon:'e',type:'w'});
+                    }
+                }).fail(function () {
+                    xtip.msg("请求失败",{icon:'e',type:'w'});
+                })
+            },
+            setting:function(index) {
+                var that = this;
+                console.log(that.clubList[index]);
+                $.ajax({
+                    url:"/ClubSystemTest_war_exploded/club/listMyClubInfo",
+                    data:{'name':that.clubList[index].name},
+                    method:"post"
+                }).done(function(res){
+                    that.form=res;
+                }).fail(function () {
+                    xtip.msg("请求失败",{icon:'e',type:'w'});
+                })
+            },
+            //同意入团申请
+            agree(val){
+                var that = this;
+                console.log(val);
+                $.ajax({
+                    url:"/ClubSystemTest_war_exploded/club/complete",
+                    data:{'clubId':val.clubId,'id':val.id},
+                    method:"post"
+                }).done(function(res){
+                    // console.log(res);
+                    // that.gridData=res;
+                    xtip.msg('完成对该用户的入团申请',{icon:'../css/complete.png',type:'w'});
+                    that.gridData=res;
+                }).fail(function () {
+                    xtip.msg("请求失败",{icon:'e',type:'w'});
+                })
+            },
+            //同意活动报名
+            agree2(val){
+                var that = this;
+                console.log(val);
+                $.ajax({
+                    url:"/ClubSystemTest_war_exploded/activity/complete",
+                    data:{'activityid':val.activityid,'id':val.id},
+                    method:"post"
+                }).done(function(res){
+                    // console.log(res);
+                    // that.gridData=res;
+                    xtip.msg('该用户的活动报名已通过',{icon:'../css/complete.png',type:'w'});
+                    that.gridData3=res;
+                    //更新父页面活动的人数
+                    // axios.post('/ClubSystemTest_war_exploded/activity/listClubActivity3', {
+                    //     clubId: that.clubList[tab.index].clubId,
+                    // }).then(function (response) {
+                    //     that.activityList = response.data;
+                    // }).catch(function (error) {
+                    //     console.log(error);
+                    // });
+                }).fail(function () {
+                    xtip.msg("请求失败",{icon:'e',type:'w'});
+                })
+            },
+            //提出成员
+            kickout(val){
+                var that = this;
+                console.log(val);
+                xtip.confirm('确认踢出该成员？',function(){
+                    $.ajax({
+                        url:"/ClubSystemTest_war_exploded/club/kickMember",
+                        data:{'clubId':val.clubId,'id':val.id,'userId':JSON.parse(sessionStorage.getItem("curUser")).userId},
+                        method:"post"
+                    }).done(function(res){
+                        xtip.msg('已踢出',{icon:'../css/complete.png',type:'w'});
+                        that.gridData2=res;
+                    }).fail(function () {
+                        xtip.msg("请求失败",{icon:'e',type:'w'});
+                    })
+                });
+            },
+            //修改社团信息
+            alter(){
+                var that = this;
+                console.log(that.form);
+                $.ajax({
+                    url:"/ClubSystemTest_war_exploded/club/update2",
+                    data:{'clubId':that.form.clubId,'description':that.form.description,'notice':that.form.notice},
+                    method:"post"
+                }).done(function(res){
+                    if(res.status == 0){
+                        xtip.msg('完成修改',{icon:'../css/complete.png',type:'w'});
+                    }else if(res.status == 1){
+                        xtip.msg(res.msg,{icon:'e',type:'w'});
+                    }
+                    // that.gridData=res;
+                }).fail(function () {
+                    xtip.msg("请求失败",{icon:'e',type:'w'});
+                })
+                that.Form=false;
+                // this.updateClubInfo();
+                // window.location.reload();
+                axios.post('/ClubSystemTest_war_exploded/club/listMyClub2', {
+                    userid: JSON.parse(sessionStorage.getItem("curUser")).userId,
+                }).then(function (response) {
+                    that.clubList = response.data;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            //创建社团活动
+            alter2:function(index) {
+                var that = this;
+                console.log(that.clubList[index]);
+                console.log(that.form2);
+                $.ajax({
+                    url:"/ClubSystemTest_war_exploded/activity/create",
+                    data:{'clubId':that.clubList[index].clubId,
+                          'title':that.form2.title,
+                          'description':that.form2.description,
+                          'starttime':that.form2.starttime,
+                          'endtime':that.form2.endtime,
+                          'location':that.form2.location,
+                    },
+                    method:"post"
+                }).done(function(res){
+                    if(res.status == 0){
+                        xtip.msg(res.msg,{icon:'../css/complete.png',type:'w'});
+                        that.Form2=false;
+                        that.form2={};
+                        $.ajax({//创建完成后更新activityList
+                            url:"/ClubSystemTest_war_exploded/activity/listClubActivity2",
+                            data:{'clubId':that.clubList[index].clubId},
+                            method:"post"
+                        }).done(function(res){
+                            that.activityList=res;
+                        }).fail(function () {
+                            xtip.msg("请求失败",{icon:'e',type:'w'});
+                        })
+                    }else if(res.status == 1){
+                        xtip.msg(res.msg,{icon:'e',type:'w'});
+                    }
+                }).fail(function () {
+                    xtip.msg("请求失败",{icon:'e',type:'w'});
+                })
+            },
+            //监听入社申请表的关闭
+            closeDialog(){
+                // console.log('close1');
+                // this.$options.methods.updateClubInfo();
+                var that = this;
+                axios.post('/ClubSystemTest_war_exploded/club/listMyClub2', {
+                    userid: JSON.parse(sessionStorage.getItem("curUser")).userId,
+                }).then(function (response) {
+                    that.clubList = response.data;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            //监听人员管理的关闭
+            closeDialog2(){
+                // console.log('close2');
+                // this.$options.methods.updateClubInfo();
+                var that = this;
+                axios.post('/ClubSystemTest_war_exploded/club/listMyClub2', {
+                    userid: JSON.parse(sessionStorage.getItem("curUser")).userId,
+                }).then(function (response) {
+                    that.clubList = response.data;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+            //监听活动报名表的关闭
+            closeDialog3(index, row){
+                console.log('close3');
+                var that = this;
+                // console.log(index, row);
+                $.ajax({//创建完成后更新activityList
+                    url:"/ClubSystemTest_war_exploded/activity/listClubActivity2",
+                    data:{'clubId':row.clubId},
+                    method:"post"
+                }).done(function(res){
+                    that.activityList=res;
+                }).fail(function () {
+                    xtip.msg("请求失败",{icon:'e',type:'w'});
+                })
+            },
+            handleEdit(index, row) {
+                var that = this;
+                console.log(index, row);
+                $.ajax({
+                    url:"/ClubSystemTest_war_exploded/activity/listActivityApprovalUser",
+                    data:{'activityid':row.activityid},
+                    method:"post"
+                }).done(function(res){
+                    if(res != null){
+                        that.gridData3=res;
+                    }else{
+                        xtip.msg("申请列表为空",{icon:'e',type:'w'});
+                    }
+                }).fail(function () {
+                    xtip.msg("请求失败",{icon:'e',type:'w'});
+                })
+            },
+            handleDelete(index, row) {
+                console.log(index, row);
+            },
+            handleClick(tab) {//选择社团的时候
+                var that=this;
+                console.log(tab.index);
+                axios.post('/ClubSystemTest_war_exploded/activity/listClubActivity3', {
+                    clubId: that.clubList[tab.index].clubId,
+                }).then(function (response) {
+                    that.activityList = response.data;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            },
+        },
+    })
+</script>

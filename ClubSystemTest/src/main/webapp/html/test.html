@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../font/iconfont.css" />
+    <link rel="stylesheet" href="../css/framework.css" />
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+<body>
+<div class="main-out" id="main">
+    <el-table
+            :data="tableData"
+            border
+            style="width: 100%">
+        <el-table-column
+                fixed
+                prop="date"
+                label="日期"
+                width="150">
+        </el-table-column>
+        <el-table-column
+                prop="name"
+                label="姓名"
+                width="120">
+        </el-table-column>
+        <el-table-column
+                prop="province"
+                label="省份"
+                width="120">
+        </el-table-column>
+        <el-table-column
+                prop="city"
+                label="市区"
+                width="120">
+        </el-table-column>
+        <el-table-column
+                prop="address"
+                label="地址"
+                width="300">
+        </el-table-column>
+        <el-table-column
+                prop="zip"
+                label="邮编"
+                width="120">
+        </el-table-column>
+        <el-table-column
+                fixed="right"
+                label="操作"
+                width="100">
+            <template slot-scope="scope">
+                <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+                <el-button type="text" size="small">编辑</el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+    <!--tableData2-->
+    <el-table
+            :data="activityList.filter(data => !search || data.title.toLowerCase().includes(search.toLowerCase()))"
+            style="width: 100%" height="250" border>
+        <el-table-column label="id" prop="activityid" width="35"></el-table-column>
+        <el-table-column label="活动名称" prop="title" width="80"></el-table-column>
+        <el-table-column label="描述" prop="description"></el-table-column>
+        <el-table-column label="地点" prop="location" width="80"></el-table-column>
+        <el-table-column label="人数" prop="amount" width="40"></el-table-column>
+        <el-table-column label="开始时间" prop="starttime"></el-table-column>
+        <el-table-column label="结束时间" prop="endtime"></el-table-column>
+        <el-table-column align="right" width="120">
+            <template slot="header" slot-scope="scope">
+                <el-input v-model="search" size="mini" placeholder="搜索"/>
+            </template>
+            <template slot-scope="scope">
+                <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
+                <!--                                    <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">Delete</el-button>-->
+            </template>
+        </el-table-column>
+<!--        <el-table-column-->
+<!--                label="Date"-->
+<!--                prop="date">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--                label="Name"-->
+<!--                prop="name">-->
+<!--        </el-table-column>-->
+<!--        <el-table-column-->
+<!--                align="right">-->
+<!--            <template slot="header" slot-scope="scope">-->
+<!--                <el-input-->
+<!--                        v-model="search"-->
+<!--                        size="mini"-->
+<!--                        placeholder="输入关键字搜索"/>-->
+<!--            </template>-->
+<!--            <template slot-scope="scope">-->
+<!--                <el-button-->
+<!--                        size="mini"-->
+<!--                        @click="handleEdit(scope.$index, scope.row)">Edit</el-button>-->
+<!--                <el-button-->
+<!--                        size="mini"-->
+<!--                        type="danger"-->
+<!--                        @click="handleDelete(scope.$index, scope.row)">Delete</el-button>-->
+<!--            </template>-->
+<!--        </el-table-column>-->
+    </el-table>
+    <!-- Form -->
+    <el-button type="text" @click="dialogFormVisible = true">打开嵌套表单的 Dialog</el-button>
+
+    <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
+        <el-form :model="form">
+            <el-form-item label="活动名称" :label-width="formLabelWidth">
+                <el-input v-model="form.name" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="活动区域" :label-width="formLabelWidth">
+                <el-select v-model="form.region" placeholder="请选择活动区域">
+                    <el-option label="区域一" value="shanghai"></el-option>
+                    <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        </div>
+    </el-dialog>
+</div>
+</body>
+</html>
+<script src="../js/jquery-3.4.1.js"></script>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.js"></script>
+<script>
+    var app = new Vue({
+        el: '#main',
+        data: {
+            formLabelWidth: '100px',
+            dialogFormVisible: false,
+            form: {
+                name: '',
+                region: '',
+                date1: '',
+                date2: '',
+                delivery: false,
+                type: [],
+                resource: '',
+                desc: ''
+            },
+            tableData: [{
+                date: '2016-05-02',
+                name: '王小虎',
+                province: '上海',
+                city: '普陀区',
+                address: '上海市普陀区金沙江路 1518 弄',
+                zip: 200333
+            }, {
+                date: '2016-05-04',
+                name: '王小虎',
+                province: '上海',
+                city: '普陀区',
+                address: '上海市普陀区金沙江路 1517 弄',
+                zip: 200333
+            }, {
+                date: '2016-05-01',
+                name: '王小虎',
+                province: '上海',
+                city: '普陀区',
+                address: '上海市普陀区金沙江路 1519 弄',
+                zip: 200333
+            }, {
+                date: '2016-05-03',
+                name: '王小虎',
+                province: '上海',
+                city: '普陀区',
+                address: '上海市普陀区金沙江路 1516 弄',
+                zip: 200333
+            }],
+            tableData2: [],
+            activityList:[],
+    // {
+    //     date: '2016-05-02',
+    //         name: '王小虎',
+    //     address: '上海市普陀区金沙江路 1518 弄'
+    // }, {
+    //     date: '2016-05-04',
+    //         name: '王小虎',
+    //         address: '上海市普陀区金沙江路 1517 弄'
+    // }, {
+    //     date: '2016-05-01',
+    //         name: '王小虎',
+    //         address: '上海市普陀区金沙江路 1519 弄'
+    // }, {
+    //     date: '2016-05-03',
+    //         name: '王小虎',
+    //         address: '上海市普陀区金沙江路 1516 弄'
+    // }
+            search: ''
+        },
+        mounted() {
+
+        },
+        methods:{
+            //查看详情
+            handleClick(val){
+                console.log(val);
+            },
+            handleEdit(index, row) {
+                console.log(index, row);
+            },
+            handleDelete(index, row) {
+                console.log(index, row);
+            }
+        },
+    })
+</script>

@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../font/iconfont.css" />
+    <link rel="stylesheet" href="../css/framework.css" />
+    <script src="../js/vue.min.js" type="text/javascript"></script>
+    <!-- 弹窗 -->
+    <link href="../css/xtiper.css" type="text/css" rel="stylesheet" />
+    <link rel="shortcut icon" href="#"/>
+    <script src="../js/xtiper.min.js" type="text/javascript"></script>
+    <title>社团申请审批</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+        }
+        
+        html {
+            height: 100%;
+            width: 100%;
+        }
+        
+        body {
+            width: 100%;
+            height: 100%;
+            background: #4F4F4F;
+            min-width: 530px;
+            /* 可以往上调，根据需求改，最小555px */
+            min-height: 700px;
+        }
+        
+        .left-gonggao {
+            background: #384BB7;
+            color: #fff;
+        }
+        
+        .main {
+            width: 1280px;
+            height: 550px;
+            background: #333;
+            box-shadow: 5px 5px 15px #161616;
+            border-radius: 5px;
+            position: relative;
+            top: 20px;
+            left: 30px;
+            padding-top: 50px;
+            margin: 0 auto;
+        }
+        
+        .kuan {
+            width: 1280px;
+            height: 500px;
+            overflow: hidden;
+            overflow: auto;
+        }
+        
+        #table table {
+            width: 85%;
+            font-size: 14px;
+            margin: 0 auto;
+        }
+        
+        #table {
+            padding: 0 10px;
+        }
+        
+        table thead th {
+            background-color: #03dac6;
+            font-weight: bold;
+            color: #fff;
+            white-space: nowrap;
+            box-sizing: border-box;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        table tbody {
+            border-radius: 10px;
+        }
+        
+        table tbody td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            border-right: 1px solid #eee;
+            background-color: #f5f5f5;
+        }
+        .agree{
+            color: #fff;
+            width: 50px;
+            height: 25px;
+            border-radius: 3px;
+            border: 1px solid transparent;
+            font-size: 12px;
+            background-color: #337ab7;
+            border-color: #2e6da4;
+        }
+        .agree:hover {
+            background-color: #286090;
+            border-color: #204d74;
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部 -->
+    <div class="header">
+        <div class="portrait">
+            <span class="iconfont icon-touxiang-kong" style="display: block; color: #fff;text-align: center; width: 100%;height: 70%; font-size: 55px; float: left;"></span>
+            <p class="header-username">username</p>
+        </div>
+        <div class="header-title">
+            <p class="title-content">社团管理系统</p>
+        </div>
+        <div class="header-right">
+            <div class="right-logout">
+                <div id="logout" class="logout-content">
+                    <p class="font-logout">退出</p>
+                    <span class="iconfont icon-dengchu" style=" width: 47px; float:right; font-size: 30px; padding-top: 3px;padding-bottom: 4px;color: #fff;"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 内容 -->
+    <div class="content">
+        <!-- 左侧导航 -->
+        <div class="nav">
+            <ul class="nav-ul">
+                <li id="jump-index" class="jump">首页</li>
+                <li id="jump-clubApproval" class="jump">社团申请审批</li>
+                <li id="jump-clubManager" class="jump">社团管理</li>
+                <li id="jump-userManager" class="jump">用户管理</li>
+            </ul>
+        </div>
+        <!-- 主体内容 -->
+        <div class="main-out">
+            <div class="main">
+                <div class="kuan">
+                    <div id="table">
+                        <table id="tab" cellpadding="0" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>社团id</th>
+                                    <th>社团名称</th>
+                                    <th>描述</th>
+                                    <th>申请人id</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(item,index) in newsList">
+                                    <td width="8%">{{item.clubId}}</td>
+                                    <td width="15%">{{item.name}}</td>
+                                    <td >{{item.description}}</td>
+                                    <td width="15%">{{item.ownerId}}</td>
+                                    <td width="10%"><button class="agree" onclick="openAddModal(this)">同意</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!--原来少了一个-->
+</body>
+
+</html>
+<script type="text/javascript" src="../js/jump.js"></script>
+<script src="../js/jquery-3.4.1.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.js"></script>
+<script>
+    function openAddModal(obj) {
+        var $td = $(obj).parent().parent().children('td');
+        var clubId = $td.eq(0).text();
+        var ownerId = $td.eq(3).text();
+        // console.log(clubId);
+        $.ajax({
+            url:"/ClubSystemTest_war_exploded/club/update",
+            data:{'clubId':clubId,'ownerId':ownerId},
+            method:"post"
+        }).done(function(data){
+            if(data.status == 0){
+                window.location.reload();
+                alert(data.msg);
+            }else if(data.status == 1){
+                xtip.msg(data.msg,{icon:'e',type:'w'});
+            }
+        }).fail(function () {
+            alert("请求失败")
+        })
+    }
+    window.onload = function() {
+        $('.header .portrait .header-username').text(JSON.parse(sessionStorage.getItem("curUser")).username);
+        // $.ajax({
+        //     url:"/ClubSystemTest_war_exploded/club/list",
+        //     data:{'state':1},
+        //     method:"post"
+        // }).done(function(data){
+        //     if(data.status == 0){
+        //         console.log(data.clubList);
+        //         alert(data.msg);
+        //         this.newsList = data.clubList;
+        //     }else if(data.status == 1){
+        //         xtip.msg(data.msg,{icon:'e',type:'w'});
+        //     }
+        // }).fail(function () {
+        //     alert("请求失败")
+        // })
+    };
+    var app = new Vue({
+        el: '#table',
+        data: {
+            newsList:null,
+        },
+        mounted() {
+            var that = this;
+            axios.post('/ClubSystemTest_war_exploded/club/list2', {
+                state: 1,
+            }).then(function (response) {
+                that.newsList = response.data;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        methods: {
+            // 确认更新
+            // update(){
+            //     axios.post('/ClubSystemTest_war_exploded/club/list2', {
+            //         state: 1,
+            //     }).then(function (response) {
+            //         console.log(response.size());
+            //         for (let i = 0; i < response.size(); i++) {
+            //             console.log(response.get(i));
+            //             this.newsList[i] = {
+            //                 clubId: response.get(i).clubId,
+            //                 name: response.get(i).name,
+            //                 description: response.get(i).description,
+            //                 ownerId: response.get(i).ownerId
+            //             }
+            //         }
+            //         // this.newsList = response.data;
+            //         console.log(this.newsList);
+            //     }).catch(function (error) {
+            //         console.log(error);
+            //     });
+            // }
+            // update(){
+            //     $.ajax({
+            //         url:"/ClubSystemTest_war_exploded/club/list",
+            //         data:{'state':1},
+            //         method:"post"
+            //     }).done(function(data){
+            //         if(data.status == 0){
+            //             console.log(data.clubList);
+            //             for (let i = 0; i < data.clubList.length; i++) {
+            //                 console.log(data.clubList[i]);
+            //                 this.newsList[i] = {
+            //                     clubId: data.clubList[i].clubId,
+            //                     name: data.clubList[i].name,
+            //                     description: data.clubList[i].description,
+            //                     ownerId: data.clubList[i].ownerId
+            //                 }
+            //             }
+            //             // this.newsList = data.clubList;
+            //             console.log(this.newsList);
+            //         }else if(data.status == 1){
+            //             xtip.msg(data.msg,{icon:'e',type:'w'});
+            //         }
+            //     }).fail(function () {
+            //         alert("请求失败")
+            //     })
+            // }
+        //     update() {
+        //         //编辑的话，也是传id去服务端
+        //         axios.get('url',{ID:id}).then((res) =>{
+        //         			加载列表
+        //         })
+        //         let _this = this
+        //         for (let i = 0; i < _this.newsList.length; i++) {
+        //             if (_this.newsList[i].id == this.editid) {
+        //                 _this.newsList[i] = {
+        //                     title: _this.editDetail.title,
+        //                     user: _this.editDetail.user,
+        //                     dates: _this.editDetail.dates,
+        //                     id: this.editid
+        //                 }
+        //                 this.editlist = false
+        //             }
+        //         }
+        //     }
+        }
+    })
+</script>

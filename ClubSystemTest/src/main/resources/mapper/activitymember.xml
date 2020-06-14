@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.zucc.dao.ActivityMemberDao">
+    <resultMap type="cn.edu.zucc.entity.ActivityMember" id="ActivityMemberResult">
+        <id property="id" column="id"></id>
+        <result property="activityid" column="activityid"></result>
+        <result property="userId" column="userId"></result>
+        <result property="username" column="username"></result>
+        <result property="state" column="state"></result>
+    </resultMap>
+    <insert id="addActivityMember">
+    	insert into activitymember(activityid,userId,state,username) values(#{activityid},#{userId},#{state},#{username})
+    </insert>
+    <delete id="deleteActivityMember">
+        delete from activitymember where userId=#{userId} and activityid=#{activityid}
+    </delete>
+    <select id="check" resultMap="ActivityMemberResult">
+ 		select * from activitymember where userId=#{userId} and activityid=#{activityid}
+ 	</select>
+    <update id="changeState">
+		update activitymember set state=#{state} where id=#{id}
+	</update>
+    <select id="selectNoInUserByActivityid" resultMap="ActivityMemberResult">
+ 		select * from activitymember where activityid=#{activityid} and state=1
+ 	</select>
+    <select id="listMyactivity" resultType="java.lang.Integer">
+ 		select activityid from activitymember where userId=#{userId} and state=2
+ 	</select>
+</mapper>

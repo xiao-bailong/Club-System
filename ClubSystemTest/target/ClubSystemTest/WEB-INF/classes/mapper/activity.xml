@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.zucc.dao.ActivityDao">
+    <resultMap type="cn.edu.zucc.entity.Activity" id="ActivityResult">
+        <id property="activityid" column="activityid"></id>
+        <result property="title" column="title"></result>
+        <result property="description" column="description"></result>
+        <result property="clubId" column="clubId"></result>
+        <result property="starttime" column="starttime"></result>
+        <result property="endtime" column="endtime"></result>
+        <result property="location" column="location"></result>
+        <result property="amount" column="amount"></result>
+    </resultMap>
+    <insert id="createActivity">
+    	insert into activity(title,description,clubId,starttime,endtime,location,amount) values(#{title},#{description},#{clubId},#{starttime},#{endtime},#{location},0)
+    </insert>
+    <select id="check" resultMap="ActivityResult">/*测试用的*/
+ 		select * from activity where activityid=#{activityid}
+ 	</select>
+    <select id="listClubActivity" resultMap="ActivityResult">
+ 		select * from activity where clubId=#{clubId}
+ 	</select>
+    <update id="addMember">
+		update activity set amount=amount+1 where activityid=#{activityid}
+	</update>
+    <update id="deleteMember">
+		update activity set amount=amount-1 where activityid=#{activityid}
+	</update>
+    <select id="count" resultType="java.lang.Integer">
+ 		select count(*) from activity
+ 	</select>
+    <select id="listMyactivity" resultMap="ActivityResult">
+        select * from activity where clubId=#{clubId} and activityid in
+        <foreach collection="activityidlist" item="activityid" index="index" open="(" close=")" separator=",">
+            #{activityid}
+        </foreach>
+    </select>
+    <select id="search" resultMap="ActivityResult">
+ 		select * from activity where title like concat('%',#{title},'%') and clubId=#{clubId}
+ 	</select>
+</mapper>
